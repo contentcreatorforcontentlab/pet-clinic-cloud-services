@@ -97,16 +97,16 @@ class OwnerController {
 			result.rejectValue("lastName", "notFound", "not found");
 			return "owners/findOwners";
 		}
-		else if (ownersResults.getTotalElements() == 1) {
+
+		if (ownersResults.getTotalElements() == 1) {
 			// 1 owner found
 			owner = ownersResults.iterator().next();
 			return "redirect:/owners/" + owner.getId();
 		}
-		else {
-			// multiple owners found
-			lastName = owner.getLastName();
-			return addPaginationModel(page, model, lastName, ownersResults);
-		}
+
+		// multiple owners found
+		lastName = owner.getLastName();
+		return addPaginationModel(page, model, lastName, ownersResults);
 	}
 
 	private String addPaginationModel(int page, Model model, String lastName, Page<Owner> paginated) {

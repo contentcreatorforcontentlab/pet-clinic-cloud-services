@@ -29,6 +29,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.NamedEntity;
@@ -77,6 +78,10 @@ public class Pet extends NamedEntity {
 		return this.visits;
 	}
 
+	/*
+	 * public void addVisit(@NotNull Visit visit) { if (visits.isEmpty()) {
+	 * System.out.println("Empty"); } else { Visit[] x = visits.toArray(new Visit[0]); } }
+	 */
 	public void addVisit(Visit visit) {
 		getVisits().add(visit);
 	}

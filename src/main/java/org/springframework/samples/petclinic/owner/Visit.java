@@ -16,14 +16,16 @@
 package org.springframework.samples.petclinic.owner;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.vet.Vet;
+import org.springframework.samples.petclinic.vet.VetRepository;
 
 /**
  * Simple JavaBean domain object representing a visit.
@@ -41,6 +43,10 @@ public class Visit extends BaseEntity {
 
 	@NotEmpty
 	private String description;
+
+	private int vet_id;
+
+	private int pet_id;
 
 	/**
 	 * Creates a new instance of Visit for the current date
@@ -63,6 +69,22 @@ public class Visit extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getVetId() {
+		return this.vet_id;
+	}
+
+	public void setVetId(int vet_id) {
+		this.vet_id = vet_id;
+	}
+
+	public int getPetId() {
+		return this.pet_id;
+	}
+
+	public void setPetId(int pet_id) {
+		this.pet_id = pet_id;
 	}
 
 }

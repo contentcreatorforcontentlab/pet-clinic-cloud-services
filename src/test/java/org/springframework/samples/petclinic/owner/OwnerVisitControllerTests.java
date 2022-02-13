@@ -36,7 +36,7 @@ import org.springframework.test.web.servlet.MockMvc;
  * @author Colin But
  */
 @WebMvcTest(VisitController.class)
-class VisitControllerTests {
+class OwnerVisitControllerTests {
 
 	private static final int TEST_OWNER_ID = 1;
 

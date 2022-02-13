@@ -55,6 +55,14 @@ public interface VetRepository extends Repository<Vet, Integer> {
 	@Cacheable("vets")
 	Page<Vet> findAll(Pageable pageable) throws DataAccessException;
 
-	;
+	/**
+	 * Retrieve the <code>Vet</code>s from its id
+	 * @param id
+	 * @return
+	 * @throws DataAccessException
+	 */
+	@Transactional(readOnly = true)
+	@Cacheable("vets")
+	public Vet findById(Integer id);
 
 }

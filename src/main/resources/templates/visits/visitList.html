@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout (~{::body},'visitList')}">
+
+<body>
+
+<h2>Visits for Vet</h2>
+
+
+<form th:object="${visitRequest}" class="form-horizontal" method="post">
+  <div class="form-group has-feedback">
+    <table width="100%">
+      <colgroup>
+        <col width="50%">
+        <col width="50%">
+      </colgroup>
+      <tr>
+        <td rowspan="2">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Vet</label>
+            <div class="col-sm-10">
+              <select class="form-control" th:object="${vetList}" id="vetId" name="vetId">
+                <option th:each="vet : ${vetList}" th:value="${vet.id}" th:text="${vet.firstName}+' '+${vet.lastName}" th:selected="${vet.id==visitRequest.vetId}"/>
+              </select>
+              <span class="fa fa-ok form-control-feedback" aria-hidden="true"/>
+            </div>
+          </div>
+        </td>
+        <td>
+          <input th:replace="~{fragments/inputField :: input ('Start Date', 'startDate', 'date')}"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <input th:replace="~{fragments/inputField :: input ('End Date', 'endDate', 'date')}"/>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button class="btn btn-primary" type="submit">Get Visits</button>
+    </div>
+  </div>
+</form>
+
+  <hr />
+
+<table width=100% id="reportVisits" class="table table-striped">
+  <thead>
+  <tr>
+    <th>Pet Name</th>
+    <th>Date</th>
+    <th>Description</th>
+    <th>Owner</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="reportVisit : ${visitList}">
+    <td th:text="${reportVisit.petName}"></td>
+    <td th:text="${reportVisit.visitDate}"></td>
+    <td th:text="${reportVisit.description}"></td>
+    <td th:text="${reportVisit.ownerFirstName + ' ' + reportVisit.ownerLastName}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<div th:if="${totalPages > 1}">
+  <span>Pages:</span>
+  <span>[</span>
+  <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+      <a th:if="${currentPage != i}" th:href="@{'/visitList.html/?page=' + ${i}}">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span>
+    </span>
+  <span>]&nbsp;</span>
+  <span>
+      <a th:if="${currentPage > 1}" th:href="@{'/visitList.html/?page=1'}" title="First"
+         class="fa fa-fast-backward"></a>
+      <span th:unless="${currentPage > 1}" title="First" class="fa fa-fast-backward"></span>
+    </span>
+  <span>
+      <a th:if="${currentPage > 1}" th:href="@{'/visitList.html/?page=' + ${currentPage - 1}}" title="Previous"
+         class="fa fa-step-backward"></a>
+      <span th:unless="${currentPage > 1}" title="Previous" class="fa fa-step-backward"></span>
+    </span>
+  <span>
+      <a th:if="${currentPage < totalPages}" th:href="@{'/visitList.html/?page=' + ${currentPage + 1}}" title="Next"
+         class="fa fa-step-forward"></a>
+      <span th:unless="${currentPage < totalPages}" title="Next" class="fa fa-step-forward"></span>
+    </span>
+  <span>
+      <a th:if="${currentPage < totalPages}" th:href="@{'/visitList.html/?page=' + ${totalPages}}" title="Last"
+         class="fa fa-fast-forward"></a>
+      <span th:unless="${currentPage < totalPages}" title="Last" class="fa fa-fast-forward"></span>
+    </span>
+</div>
+</body>
+</html>
