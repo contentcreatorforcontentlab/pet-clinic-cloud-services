@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.visits;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.samples.petclinic.vet.VetRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,9 @@ import java.util.List;
 
 @Controller
 public class VisitReportController {
+
+	@Value("${azure.visit.report.function.url}")
+	private String azureVisitReportFunctionUrl;
 
 	private final VetRepository vets;
 
@@ -45,11 +49,9 @@ public class VisitReportController {
 		LocalDate endDate = visitRequest.getEndDate();
 		int vetId = visitRequest.getVetId();
 
-		// http://localhost:7071/vets/7/visits?startDate=01-01-2010&endDate=01-01-2020
 		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.getForObject(
-				"http://localhost:7071/vets/{vet}/visits?startDate={startDate}&endDate={endDate}", String.class, vetId,
-				startDate, endDate);
+		String result = restTemplate.getForObject(azureVisitReportFunctionUrl,
+				String.class, vetId, startDate, endDate);
 
 		model.addAttribute("visitRequest", visitRequest);
 		model.addAttribute("vetList", vets.findAll());
